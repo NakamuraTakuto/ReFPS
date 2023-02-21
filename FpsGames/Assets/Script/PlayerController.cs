@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         dir = Camera.main.transform.TransformDirection(dir);
         dir.y = 0;
-        _controller.SimpleMove(dir * _moveSpeed);//* Time.deltaTime);
+        _controller.SimpleMove(dir * _moveSpeed);
 
         //Cinemachine‚ÌŒü‚¢‚Ä‚é•ûŒü‚ğæ‚Á‚Ä‚«‚ÄPlyer‚ÌŒü‚­•ûŒü‚ğ’²®‚·‚é
         Vector3 _camera = Camera.main.transform.TransformDirection(Vector3.forward);

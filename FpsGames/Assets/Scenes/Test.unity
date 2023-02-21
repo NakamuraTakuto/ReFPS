@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 444500623}
   - component: {fileID: 444500622}
   - component: {fileID: 444500621}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: EnemyMuzl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13280,7 +13280,7 @@ GameObject:
   - component: {fileID: 2038777315}
   - component: {fileID: 2038777314}
   - component: {fileID: 2038777322}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: EnemyTester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13299,13 +13299,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1064e35bc92f4df47b9d4ff976a52d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxRange: 8
-  _minRange: 4
+  _maxRange: 10
+  _minRange: 5
   _bullets: {fileID: 0}
   _range: 0
   _playerObj: {fileID: 540854327}
   _enemyMuzle: {fileID: 444500620}
   _inPlayer: 0
+  _type: 1
+  _moveSpeed: 5
 --- !u!54 &2038777315
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13331,7 +13333,7 @@ MeshCollider:
   m_GameObject: {fileID: 2038777313}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -14240,7 +14242,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038777313}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -40.2896, y: 5.339, z: -5.2504}
+  m_LocalPosition: {x: -40.2896, y: 2.7, z: -5.2504}
   m_LocalScale: {x: 0.24001108, y: 0.35578883, z: 0.28454345}
   m_ConstrainProportionsScale: 0
   m_Children:

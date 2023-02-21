@@ -9,6 +9,7 @@ public class ShotActive : MonoBehaviour
 
      public void Active()
     {
+        //Œ‚‚½‚ê‚½Obj‚É‚æ‚Á‚Äˆ—‚ğ•ª‚¯‚é
         switch(_type)
         {
             case ActionType.Enemy:
@@ -31,7 +32,7 @@ public class ShotActive : MonoBehaviour
     }
 
 
-
+    //Obj‚Ìí—Ş
     enum ActionType
     {
         Enemy,

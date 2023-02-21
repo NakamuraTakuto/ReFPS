@@ -22,6 +22,8 @@ public class EnemyContoller : MonoBehaviour
     [SerializeField] GameObject _enemyMuzle;
     Rigidbody _rb;
     [SerializeField] bool _inPlayer = false;
+    [SerializeField] EnemyType _type = EnemyType.defalt;
+    [SerializeField] float _moveSpeed = 5f;
 
     private void Start()
     {
@@ -33,6 +35,8 @@ public class EnemyContoller : MonoBehaviour
         //PlayerがTrigger範囲内にいる場合のみ実行
         if (_inPlayer)
         {
+            gameObject.transform.forward = _playerObj.transform.position;
+
             RangeCalculation(gameObject.transform.position,
                              _playerObj.transform.position);
             EnemyAI(_range);
@@ -42,18 +46,32 @@ public class EnemyContoller : MonoBehaviour
     //Enemyの行動パターン管理
     void EnemyAI(float range)
     {
-        //Playerが一定距離にいるときに攻撃
-        if (range <= _maxRange * _maxRange && _minRange * _minRange <= range)
+        switch (_type)
         {
-            Debug.Log("Attack");
-        }//Playerが遠い場合、近づく
-        else if (range > _maxRange * _maxRange)
-        {
-            Debug.Log($"{range}, 近づく");
-        }//Playerが近い場合、離れる
-        else if (range < _minRange * _minRange)
-        {
-            Debug.Log($"{range}, 離れる");
+            case EnemyType.defalt:
+                //Playerが一定距離にいるときに攻撃
+                if (range <= _maxRange * _maxRange && _minRange * _minRange <= range)
+                {
+                    Debug.Log($"Attack");
+                }
+                //Playerが遠い場合、近づく
+                else if (range > _maxRange * _maxRange)
+                {
+                    Debug.Log($"近づく");
+                    //_rb.velocity = new Vector3(0, 0, 1) * _moveSpeed;
+                    _rb.velocity = -_playerObj.transform.position.normalized * _moveSpeed;
+                }
+                //Playerが近い場合、離れる
+                else if (range < _minRange * _minRange)
+                {
+                    Debug.Log($"離れる");
+                    _rb.velocity = new Vector3(0, 0, -1) * _moveSpeed;
+                }
+                break;
+
+            case EnemyType.Boss:
+                //defaltに近接攻撃を追加
+                break;
         }
     }
      
@@ -75,6 +93,16 @@ public class EnemyContoller : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player") ;
+        if (other.gameObject.tag == "Player")
+        {
+            _rb.velocity = gameObject.transform.position * 0;
+            _inPlayer = false;
+        }
+    }
+
+    enum EnemyType
+    {
+        Boss,
+        defalt
     }
 }
