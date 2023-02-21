@@ -30,6 +30,7 @@ public class EnemyContoller : MonoBehaviour
 
     private void Update()
     {
+        //PlayerがTrigger範囲内にいる場合のみ実行
         if (_inPlayer)
         {
             RangeCalculation(gameObject.transform.position,
@@ -38,24 +39,28 @@ public class EnemyContoller : MonoBehaviour
         }
     }
 
+    //Enemyの行動パターン管理
     void EnemyAI(float range)
     {
+        //Playerが一定距離にいるときに攻撃
         if (range <= _maxRange * _maxRange && _minRange * _minRange <= range)
         {
             Debug.Log("Attack");
-        }
+        }//Playerが遠い場合、近づく
         else if (range > _maxRange * _maxRange)
         {
             Debug.Log($"{range}, 近づく");
-        }
+        }//Playerが近い場合、離れる
         else if (range < _minRange * _minRange)
         {
             Debug.Log($"{range}, 離れる");
         }
     }
      
+    //Playerとの距離を計算する
     void RangeCalculation(Vector3 me, Vector3 player)
     {
+        //高さは考慮しないため平面で計算
         float x = me.x - player.x;
         float z = me.z - player.z;
         _range = x * x  + z * z;
