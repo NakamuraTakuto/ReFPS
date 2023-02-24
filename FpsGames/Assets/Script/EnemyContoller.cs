@@ -23,7 +23,6 @@ public class EnemyContoller : MonoBehaviour
         _minRange = _setValues.GetMinRange;
         _moveSpeed = _setValues.GetMoveSpeed;
         _playerObj = _attach.GetPlayerObj;
-        
     }
 
     private void Update()
@@ -108,8 +107,21 @@ public class EnemyContoller : MonoBehaviour
     {
         /// <summary>EnemyMoveSpeed</summary>
         [Header("EnemyÇÃà⁄ìÆë¨ìx")]
-        [SerializeField] private float moveSpeed;
+        [SerializeField] private float moveSpeed = 5;
         public float GetMoveSpeed => moveSpeed;
+        [Header("EnemyHP")]
+        [SerializeField] int enemyHp = 10;
+        public int GetEnemyHp
+        {
+            set
+            {
+                enemyHp = value;
+            }
+            get
+            {
+                return GetEnemyHp;
+            }
+        }
         /// <summary>PlayerÇ∆ÇÃç≈ëÂÇÃä‘çáÇ¢</summary>
         [Header("PlayerÇ∆ÇÃç≈ëÂÇÃä‘çáÇ¢")]
         [SerializeField] private float _maxRange = 8;
@@ -118,7 +130,6 @@ public class EnemyContoller : MonoBehaviour
         [Header("PlayerÇ∆ÇÃä‘çáÇ¢")]
         [SerializeField] private float _minRange = 4;
         public float GetMinRange => _minRange;
-
     }
     [System.Serializable]
     class AttachmentObj

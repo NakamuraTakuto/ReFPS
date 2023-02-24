@@ -6,29 +6,24 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("CrossHair‚Ìİ’è")]
-    [SerializeField] Image _crossHair;
-    /// <summary>Ë’ö</summary>
-    [Header("Ë’ö‚Ì’·‚³")]
-    [SerializeField] float _shotRange = 15f;
-    /// <summary>Player‚É’Ç]‚µ‚Ä‚­‚éƒJƒƒ‰</summary>
-    [Header("Player‚É’Ç]‚·‚éƒJƒƒ‰‚ğİ’è")]
-    [SerializeField] GameObject _followCamera;
-    /// <summary>Player‚Éİ’è‚µ‚Ä‚¢‚ée</summary>
-    [Header("Player‚Ìe‚ğİ’è")]
-    [SerializeField] GameObject _gun;
-    /// <summary>Player‚ªU‚èŒü‚­‘¬“x</summary
-    [Header("player‚ÌU‚èŒü‚­‘¬“x")]
-    [SerializeField] float _lookSpeed = 1;
-    [Header("’e‚ª“–‚½‚éƒŒƒCƒ„[")]
-    [SerializeField] LayerMask _hitLayer = default;
-    [Header("Player‚ÌˆÚ“®‘¬“x")]
-    [SerializeField] float _moveSpeed = 5f;
+    [SerializeField] AttachmentObj _attach;
+    [SerializeField] SetValues _setValues;
     CharacterController _controller;
+    private float _moveSpeed;
+    private float _shotRange;
+    private GameObject _gun;
+    private Image _crossHair;
+    private LayerMask _hitLayer;
+
    
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _moveSpeed = _setValues.GetMoveSpeed;
+        _shotRange = _setValues.GetShotRange;
+        _gun = _attach.GetGun;
+        _crossHair = _attach.GetCrossHair;
+        _hitLayer = _attach.GetHitLayer;
     }
 
     // Update is called once per frame
@@ -66,5 +61,32 @@ public class PlayerController : MonoBehaviour
         {
             _crossHair.color = Color.black;
         }
+    }
+
+    [System.Serializable]
+    class AttachmentObj
+    {
+        [Header("CrossHair‚Ìİ’è")]
+        [SerializeField] Image _crossHair;
+        public Image GetCrossHair => _crossHair;
+        /// <summary>Player‚Éİ’è‚·‚ée</summary>
+        [Header("Player‚Éİ’è‚·‚ée")]
+        [SerializeField] GameObject _gun;
+        public GameObject GetGun => _gun;
+        [Header("’e‚ª“–‚½‚éƒŒƒCƒ„[")]
+        [SerializeField] LayerMask _hitLayer = default;
+        public LayerMask GetHitLayer => _hitLayer;
+    }
+
+    [System.Serializable]
+    class SetValues
+    {
+        /// <summary>Ë’ö</summary>
+        [Header("Ë’ö‚Ì’·‚³")]
+        [SerializeField] float _shotRange = 15f;
+        public float GetShotRange => _shotRange;
+        [Header("Player‚ÌˆÚ“®‘¬“x")]
+        [SerializeField] float _moveSpeed = 5f;
+        public float GetMoveSpeed => _moveSpeed;
     }
 }
