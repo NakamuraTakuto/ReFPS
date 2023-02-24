@@ -412,15 +412,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a81437a33601d4f8471ca1b7a0a972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _crossHair: {fileID: 1673055214}
-  _shotRange: 10
-  _followCamera: {fileID: 1606758062}
-  _gun: {fileID: 798572916}
-  _lookSpeed: 1
-  _hitLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  _moveSpeed: 5
+  _attach:
+    _crossHair: {fileID: 1673055214}
+    _gun: {fileID: 798572916}
+    _hitLayer:
+      serializedVersion: 2
+      m_Bits: 8
+  _setValues:
+    _shotRange: 15
+    _moveSpeed: 5
 --- !u!143 &540854329
 CharacterController:
   m_ObjectHideFlags: 0
@@ -561,7 +561,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-8198
+  m_Name: pb_Mesh24138
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9320,7 +9320,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-14114
+  m_Name: pb_Mesh24166
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13280,6 +13280,7 @@ GameObject:
   - component: {fileID: 2038777315}
   - component: {fileID: 2038777314}
   - component: {fileID: 2038777322}
+  - component: {fileID: 2038777323}
   m_Layer: 3
   m_Name: EnemyTester
   m_TagString: Untagged
@@ -13299,15 +13300,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1064e35bc92f4df47b9d4ff976a52d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxRange: 10
-  _minRange: 5
-  _bullets: {fileID: 0}
-  _range: 0
-  _playerObj: {fileID: 540854327}
-  _enemyMuzle: {fileID: 444500620}
-  _inPlayer: 0
   _type: 1
-  _moveSpeed: 5
+  _inPlayer: 0
+  _attach:
+    _playerObj: {fileID: 540854327}
+    _bullets: {fileID: 444500620}
+    _enemyMuzle: {fileID: 0}
+  _setValues:
+    moveSpeed: 5
+    enemyHp: 10
+    _maxRange: 8
+    _minRange: 4
 --- !u!54 &2038777315
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13322,7 +13325,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!64 &2038777316
 MeshCollider:
@@ -14263,3 +14266,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 90, y: 40, z: 90}
   m_Center: {x: 3.5, y: 0, z: 0}
+--- !u!65 &2038777323
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038777313}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.262987, y: 2.3880477, z: 8.720503}
+  m_Center: {x: 3.4148073, y: 1.1940238, z: -2.918541}
