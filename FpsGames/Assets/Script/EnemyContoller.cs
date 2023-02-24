@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyContoller : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class EnemyContoller : MonoBehaviour
     [SerializeField] bool _inPlayer = false;
     [SerializeField] EnemyType _type = EnemyType.defalt;
     [SerializeField] float _moveSpeed = 5f;
+    [SerializeField] private NavMeshAgent _agent;
 
     private void Start()
     {
@@ -35,8 +37,7 @@ public class EnemyContoller : MonoBehaviour
         //Player‚ªTrigger”ÍˆÍ“à‚É‚¢‚éê‡‚Ì‚İÀs
         if (_inPlayer)
         {
-            gameObject.transform.forward = _playerObj.transform.position;
-
+            gameObject.transform.LookAt(_playerObj.transform.position);
             RangeCalculation(gameObject.transform.position,
                              _playerObj.transform.position);
             EnemyAI(_range);
@@ -52,20 +53,22 @@ public class EnemyContoller : MonoBehaviour
                 //Player‚ªˆê’è‹——£‚É‚¢‚é‚Æ‚«‚ÉUŒ‚
                 if (range <= _maxRange * _maxRange && _minRange * _minRange <= range)
                 {
+                    _rb.velocity = gameObject.transform.position * _moveSpeed * 0;
                     Debug.Log($"Attack");
                 }
                 //Player‚ª‰“‚¢ê‡A‹ß‚Ã‚­
                 else if (range > _maxRange * _maxRange)
                 {
                     Debug.Log($"‹ß‚Ã‚­");
-                    //_rb.velocity = new Vector3(0, 0, 1) * _moveSpeed;
-                    _rb.velocity = -_playerObj.transform.position.normalized * _moveSpeed;
+                    Vector3 _target = new Vector3(_playerObj.transform.position.x - gameObject.transform.position.x, 0, 
+                                                    _playerObj.transform.position.z - gameObject.transform.position.z);
+                    _rb.velocity = _target.normalized * _moveSpeed;
                 }
                 //Player‚ª‹ß‚¢ê‡A—£‚ê‚é
                 else if (range < _minRange * _minRange)
                 {
                     Debug.Log($"—£‚ê‚é");
-                    _rb.velocity = new Vector3(0, 0, -1) * _moveSpeed;
+                    _rb.velocity = _playerObj.transform.position.normalized * -1 * _moveSpeed;
                 }
                 break;
 
