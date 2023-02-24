@@ -1,35 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyContoller : MonoBehaviour
 {
-    /// <summary>Player‚Æ‚ÌÅ‘å‚ÌŠÔ‡‚¢</summary>
-    [Header("Player‚Æ‚ÌÅ‘å‚ÌŠÔ‡‚¢")]
-    [SerializeField] float _maxRange = 8;
-    /// <summary>Player‚Æ‚Ì1”Ô‹ß‚¢ŠÔ‡‚¢</summary>
-    [Header("Player‚Æ‚ÌŠÔ‡‚¢")]
-    [SerializeField] float _minRange = 4;
-    /// <summary>EnemyBullets</summary>
-    [Header("EnemyBullets")]
-    [SerializeField] GameObject _bullets;
-    /// <summary>Player‚Æ‚Ì‹——£</summary>
-    [Header("Player‚Æ‚Ì‹——£")]
-    [SerializeField] float _range;
-    [Header("PlayerObject")]
-    [SerializeField] GameObject _playerObj;
-    [Header("EnemyMuzle")]
-    [SerializeField] GameObject _enemyMuzle;
-    Rigidbody _rb;
-    [SerializeField] bool _inPlayer = false;
     [SerializeField] EnemyType _type = EnemyType.defalt;
-    [SerializeField] float _moveSpeed = 5f;
-    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] bool _inPlayer = false;
+    [SerializeField] AttachmentObj _attach;
+    [SerializeField] SetValues _setValues;
+    float _moveSpeed;
+    /// <summary>Player‚Æ‚Ì‹——£</summary>
+    float _range;
+    Rigidbody _rb;
+    float _maxRange;
+    float _minRange;
+    GameObject _playerObj;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _maxRange = _setValues.GetMaxRange;
+        _minRange = _setValues.GetMinRange;
+        _moveSpeed = _setValues.GetMoveSpeed;
+        _playerObj = _attach.GetPlayerObj;
+        
     }
 
     private void Update()
@@ -107,5 +101,39 @@ public class EnemyContoller : MonoBehaviour
     {
         Boss,
         defalt
+    }
+
+    [System.Serializable]
+    class SetValues
+    {
+        /// <summary>EnemyMoveSpeed</summary>
+        [Header("Enemy‚ÌˆÚ“®‘¬“x")]
+        [SerializeField] private float moveSpeed;
+        public float GetMoveSpeed => moveSpeed;
+        /// <summary>Player‚Æ‚ÌÅ‘å‚ÌŠÔ‡‚¢</summary>
+        [Header("Player‚Æ‚ÌÅ‘å‚ÌŠÔ‡‚¢")]
+        [SerializeField] private float _maxRange = 8;
+        public float GetMaxRange => _maxRange;
+        /// <summary>Player‚Æ‚Ì1”Ô‹ß‚¢ŠÔ‡‚¢</summary>
+        [Header("Player‚Æ‚ÌŠÔ‡‚¢")]
+        [SerializeField] private float _minRange = 4;
+        public float GetMinRange => _minRange;
+
+    }
+    [System.Serializable]
+    class AttachmentObj
+    {
+        [Header("PlayerObject")]
+        [SerializeField] private GameObject _playerObj;
+        public GameObject GetPlayerObj => _playerObj;
+
+        /// <summary>EnemyBullets</summary>
+        [Header("EnemyBullets")]
+        [SerializeField] GameObject _bullets;
+        public GameObject GetBullets => _bullets;
+
+        [Header("EnemyMuzle")]
+        [SerializeField] GameObject _enemyMuzle;
+        public GameObject GetEnemyMuzle => _enemyMuzle;
     }
 }
