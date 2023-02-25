@@ -6,8 +6,7 @@ public class ShotActive : MonoBehaviour
 {
     [Header("Obj‚Ås‚¢‚½‚¢ˆ—‚ğ‘I‘ğ")]
     [SerializeField] ActionType _type = ActionType.Enemy;
-
-     public void Active()
+    public void Active()
     {
         //Œ‚‚½‚ê‚½Obj‚É‚æ‚Á‚Äˆ—‚ğ•ª‚¯‚é
         switch(_type)

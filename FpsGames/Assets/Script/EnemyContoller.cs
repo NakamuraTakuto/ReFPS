@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyContoller : MonoBehaviour
+public class EnemyContoller : ActiveBase
 {
     [SerializeField] EnemyType _type = EnemyType.defalt;
     [SerializeField] bool _inPlayer = false;
@@ -14,6 +14,8 @@ public class EnemyContoller : MonoBehaviour
     Rigidbody _rb;
     float _maxRange;
     float _minRange;
+    int _enemyHP;
+    bool _deth = false;
     GameObject _playerObj;
 
     private void Start()
@@ -22,11 +24,26 @@ public class EnemyContoller : MonoBehaviour
         _maxRange = _setValues.GetMaxRange;
         _minRange = _setValues.GetMinRange;
         _moveSpeed = _setValues.GetMoveSpeed;
+        _enemyHP = _setValues.GetEnemyHP;
         _playerObj = _attach.GetPlayerObj;
     }
 
     private void Update()
     {
+        if(_deth)
+        {
+            switch (_type)
+            {
+                case EnemyType.defalt:
+                    Destroy(this.gameObject);
+                    break;
+
+                case EnemyType.Boss:
+                    //GameManagerからclear判定のBoolを取得して切り替える
+                    Destroy(this.gameObject);
+                    break;
+            }
+        }
         //PlayerがTrigger範囲内にいる場合のみ実行
         if (_inPlayer)
         {
@@ -36,7 +53,6 @@ public class EnemyContoller : MonoBehaviour
             EnemyAI(_range);
         }
     }
-
     //Enemyの行動パターン管理
     void EnemyAI(float range)
     {
@@ -96,6 +112,18 @@ public class EnemyContoller : MonoBehaviour
         }
     }
 
+    public override void Active()
+    {
+        //Playerに撃たれた時の処理
+        _enemyHP -= 2;
+        _rb.AddForce(0, 0, -1);
+
+        if (_enemyHP <= 0)
+        {
+            _deth = true;
+        }
+    }
+
     enum EnemyType
     {
         Boss,
@@ -105,23 +133,19 @@ public class EnemyContoller : MonoBehaviour
     [System.Serializable]
     class SetValues
     {
+        [Header("EnemyHP")]
+        [SerializeField] int enemyHp = 10;
+        public int GetEnemyHP
+        {
+            set
+            { enemyHp = value; }
+            get
+            { return enemyHp; }
+        }
         /// <summary>EnemyMoveSpeed</summary>
         [Header("Enemyの移動速度")]
         [SerializeField] private float moveSpeed = 5;
         public float GetMoveSpeed => moveSpeed;
-        [Header("EnemyHP")]
-        [SerializeField] int enemyHp = 10;
-        public int GetEnemyHp
-        {
-            set
-            {
-                enemyHp = value;
-            }
-            get
-            {
-                return GetEnemyHp;
-            }
-        }
         /// <summary>Playerとの最大の間合い</summary>
         [Header("Playerとの最大の間合い")]
         [SerializeField] private float _maxRange = 8;
