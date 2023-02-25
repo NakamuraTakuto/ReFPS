@@ -114,9 +114,10 @@ public class EnemyContoller : ActiveBase
 
     public override void Active()
     {
-        //Playerに撃たれた時の処理
+        //Playerに撃たれた時の処理。余裕があればノックバック処理
         _enemyHP -= 2;
-        _rb.AddForce(0, 0, -1);
+        _setValues.GetEnemyHP = _enemyHP;
+        Debug.Log("Hit!!!");
 
         if (_enemyHP <= 0)
         {

@@ -43,7 +43,7 @@ class SetValues
         set
         { playerHP = value; }
         get
-        { return GetPlayerHP;}
+        { return playerHP;}
     }
 }
 

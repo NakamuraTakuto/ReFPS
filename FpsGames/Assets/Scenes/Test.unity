@@ -13307,8 +13307,8 @@ MonoBehaviour:
     _bullets: {fileID: 444500620}
     _enemyMuzle: {fileID: 0}
   _setValues:
-    moveSpeed: 5
     enemyHp: 10
+    moveSpeed: 5
     _maxRange: 8
     _minRange: 4
 --- !u!54 &2038777315
