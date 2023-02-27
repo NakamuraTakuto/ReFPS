@@ -7,6 +7,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] SetValues _setValues;
+    public SetValues GetSetValues
+    {
+        set { _setValues = value; }
+        get { return _setValues; }
+    }
     [SerializeField] AttachmentObj _attach;
     public static GameManager Instance = default;
 
@@ -34,7 +39,7 @@ public class GameManager : MonoBehaviour
 }
 
 [System.Serializable]
-class SetValues
+public class SetValues
 {
     [Header("PlayerHP")]
     [SerializeField] int playerHP = 15;

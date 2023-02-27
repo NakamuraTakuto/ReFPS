@@ -17,6 +17,8 @@ public class EnemyContoller : ActiveBase
     int _enemyHP;
     bool _deth = false;
     GameObject _playerObj;
+    GameObject _bullet;
+    GameObject _muzzle;
 
     private void Start()
     {
@@ -26,6 +28,8 @@ public class EnemyContoller : ActiveBase
         _moveSpeed = _setValues.GetMoveSpeed;
         _enemyHP = _setValues.GetEnemyHP;
         _playerObj = _attach.GetPlayerObj;
+        _bullet = _attach.GetBullets;
+        _muzzle = _attach.GetEnemyMuzle;
     }
 
     private void Update()
@@ -64,6 +68,8 @@ public class EnemyContoller : ActiveBase
                 {
                     _rb.velocity = gameObject.transform.position * _moveSpeed * 0;
                     Debug.Log($"Attack");
+                    Instantiate(_bullet, _muzzle.transform);
+                    _bullet.transform.forward = _playerObj.transform.position;
                 }
                 //Player‚ª‰“‚¢ê‡A‹ß‚Ã‚­
                 else if (range > _maxRange * _maxRange)
