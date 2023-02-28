@@ -15,10 +15,12 @@ public class EnemyContoller : ActiveBase
     float _maxRange;
     float _minRange;
     int _enemyHP;
+    float _ct;
     bool _deth = false;
     GameObject _playerObj;
     GameObject _bullet;
     GameObject _muzzle;
+    float _time;
 
     private void Start()
     {
@@ -27,6 +29,7 @@ public class EnemyContoller : ActiveBase
         _minRange = _setValues.GetMinRange;
         _moveSpeed = _setValues.GetMoveSpeed;
         _enemyHP = _setValues.GetEnemyHP;
+        _ct = _setValues.GetCoolTime;
         _playerObj = _attach.GetPlayerObj;
         _bullet = _attach.GetBullets;
         _muzzle = _attach.GetEnemyMuzle;
@@ -34,6 +37,8 @@ public class EnemyContoller : ActiveBase
 
     private void Update()
     {
+        _time += Time.deltaTime;
+
         if(_deth)
         {
             switch (_type)
@@ -68,8 +73,14 @@ public class EnemyContoller : ActiveBase
                 {
                     _rb.velocity = gameObject.transform.position * _moveSpeed * 0;
                     Debug.Log($"Attack");
-                    Instantiate(_bullet, _muzzle.transform);
-                    _bullet.transform.forward = _playerObj.transform.position;
+                    
+                    if (_time >= _ct)
+                    {
+                        Instantiate(_bullet, _muzzle.transform.position, transform.rotation);
+                        _bullet.transform.forward = _playerObj.transform.position;
+                        _time = 0;
+                        Debug.Log("EnemyShot");
+                    }
                 }
                 //Player‚ª‰“‚¢ê‡A‹ß‚Ã‚­
                 else if (range > _maxRange * _maxRange)
@@ -161,6 +172,9 @@ public class EnemyContoller : ActiveBase
         [Header("Player‚Æ‚ÌŠÔ‡‚¢")]
         [SerializeField] private float _minRange = 4;
         public float GetMinRange => _minRange;
+        [Header("UŒ‚‚ÌCoolTime")]
+        [SerializeField] float coolTime = 5;
+        public float GetCoolTime => coolTime;
     }
     [System.Serializable]
     class AttachmentObj

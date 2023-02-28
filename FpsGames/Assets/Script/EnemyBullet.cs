@@ -11,10 +11,11 @@ public class EnemyBullet : MonoBehaviour
 
     void Start()
     {
+        _rb = GetComponent<Rigidbody>();
     }
     private void Update()
     {
-    //    _rb.velocity = gameObject.transform.forward * _moveSpeed;
+        _rb.velocity = gameObject.transform.forward * _moveSpeed;
     }
     private void OnCollisionEnter(Collision collision)
     {
