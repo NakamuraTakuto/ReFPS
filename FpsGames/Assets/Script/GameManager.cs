@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField] AttachmentObj _attach;
     public static GameManager Instance = default;
+    Slider _playerHpSlider;
 
     private void Awake()
     {
@@ -29,12 +30,13 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+        _playerHpSlider = _attach.GetPlayerHpSlider;
+        _playerHpSlider.maxValue = _setValues.GetPlayerHP;
     }
 
     void Update()
     {
-        
+        _playerHpSlider.value = _setValues.GetPlayerHP;
     }
 }
 
@@ -55,5 +57,7 @@ public class SetValues
 [System.Serializable]
 class AttachmentObj
 {
-
+    [Header("PlayerHP")]
+    [SerializeField] Slider playerHpSlider;
+    public Slider GetPlayerHpSlider => playerHpSlider;
 }

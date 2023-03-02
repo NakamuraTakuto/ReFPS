@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyContoller : ActiveBase
 {
@@ -20,6 +21,7 @@ public class EnemyContoller : ActiveBase
     GameObject _playerObj;
     GameObject _bullet;
     GameObject _muzzle;
+    Slider _hpSlider;
     float _time;
 
     private void Start()
@@ -33,13 +35,17 @@ public class EnemyContoller : ActiveBase
         _playerObj = _attach.GetPlayerObj;
         _bullet = _attach.GetBullets;
         _muzzle = _attach.GetEnemyMuzle;
+        _hpSlider = _attach.GetHpSlider;
+        _hpSlider.value = _enemyHP;
+        _hpSlider.maxValue = _setValues.GetEnemyHP;
     }
 
     private void Update()
     {
         _time += Time.deltaTime;
+        _hpSlider.transform.LookAt(_playerObj.transform.position);
 
-        if(_deth)
+        if (_deth)
         {
             switch (_type)
             {
@@ -134,6 +140,7 @@ public class EnemyContoller : ActiveBase
         //Playerに撃たれた時の処理。余裕があればノックバック処理
         _enemyHP -= 2;
         _setValues.GetEnemyHP = _enemyHP;
+        _hpSlider.value = _enemyHP;
         Debug.Log("Hit!!!");
 
         if (_enemyHP <= 0)
@@ -191,5 +198,9 @@ public class EnemyContoller : ActiveBase
         [Header("EnemyMuzle")]
         [SerializeField] GameObject _enemyMuzle;
         public GameObject GetEnemyMuzle => _enemyMuzle;
+
+        [Header("HpSlider")]
+        [SerializeField] Slider hpSlider;
+        public Slider GetHpSlider => hpSlider;
     }
 }
