@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     List<GameObject> _lampObjList;
     /// <summary>gimmickの順番を管理するための変数</summary>
     int _gimmickConter = 0;
+    public bool GimmickActive = true;
 
     private void Awake()
     {
@@ -48,11 +49,13 @@ public class GameManager : MonoBehaviour
 
     public void GimmickJudge(GameObject _onHitObj)
     {
+        Debug.Log("Yobareta");
         if (_onHitObj == _gimmickObjList[_gimmickConter])
         {
             _lampObjList[_gimmickConter].GetComponent<Renderer>().material
                 .color = Color.red;
             _gimmickConter++;
+            Debug.Log(_gimmickConter);
 
             if (_gimmickConter >= _gimmickObjList.Count)
             {
@@ -61,17 +64,21 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            for (int i = _gimmickConter; i >= 0; i--)
+            if (_gimmickConter > 0)
             {
-                _lampObjList[i].GetComponent<Renderer>()
-                    .material.color = Color.blue;
+                for (int i = _gimmickConter; i >= 0; i--)
+                {
+                    _lampObjList[i].GetComponent<Renderer>()
+                        .material.color = Color.blue;
+                }
+                _gimmickConter = 0;
             }
-            _gimmickConter = 0;
         }
     }
 
     void GimmickClear()
     {
+        GimmickActive = false;
         Debug.Log("ギミッククリア!!");
     }
 }
