@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     /// <summary>gimmick‚Ì‡”Ô‚ğŠÇ—‚·‚é‚½‚ß‚Ì•Ï”</summary>
     int _gimmickConter = 0;
     public bool GimmickActive = true;
+    public bool ShotOk = true;
+    public int MagazineBullets = 6;
+    float _time;
 
     private void Awake()
     {
@@ -45,18 +48,29 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         _playerHpSlider.value = _setValues.GetPlayerHP;
+
+        if (MagazineBullets <= 0)
+        {
+            ShotOk = false;
+            _time += Time.deltaTime;
+
+            if (_time >= _setValues.GetUseTimeForReload)
+            {
+                _time = 0;
+                MagazineBullets = _setValues.GetCapacity;
+                ShotOk = true;
+            }
+        }
     }
 
     public void GimmickJudge(GameObject _onHitObj)
     {
-        Debug.Log("Yobareta");
         if (_onHitObj == _gimmickObjList[_gimmickConter])
         {
             _lampObjList[_gimmickConter].GetComponent<Renderer>().material
                 .color = Color.red;
             _gimmickConter++;
-            Debug.Log(_gimmickConter);
-
+            
             if (_gimmickConter >= _gimmickObjList.Count)
             {
                 GimmickClear();
@@ -95,6 +109,12 @@ public class SetValues
         get
         { return playerHP;}
     }
+    [Header("reload‚Ég—p‚·‚éŠÔ")]
+    [SerializeField] float useTimeForReload = 1.5f;
+    public float GetUseTimeForReload => useTimeForReload;
+    [Header("e‚Ì‘•’e”")]
+    [SerializeField] int bulletCapacity = 6;
+    public int GetCapacity => bulletCapacity;
 }
 
 [System.Serializable]

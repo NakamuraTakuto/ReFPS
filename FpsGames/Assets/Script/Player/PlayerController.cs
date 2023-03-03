@@ -51,10 +51,12 @@ public class PlayerController : MonoBehaviour
             _crossHair.color = Color.white;
 
             if (hit.collider.gameObject.TryGetComponent<ActiveBase>(out var _active)
-                && Input.GetButtonDown("Fire1"))
+                && Input.GetButtonDown("Fire1") && GameManager.Instance.ShotOk)
             {
                 //æ‚Á‚Ä‚«‚½script‚Ìˆ—‚ğŒÄ‚Ño‚·
                 _active.Active();
+                GameManager.Instance
+                    .MagazineBullets--;
             }
         }
         else
