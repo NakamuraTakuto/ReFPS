@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
                 _active.Active();
                 GameManager.Instance
                     .MagazineBullets--;
+                GameManager.Instance.
+                    BulletImageList[GameManager.Instance.MagazineBullets].SetActive(false);
             }
         }
         else
