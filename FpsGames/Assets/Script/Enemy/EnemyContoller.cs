@@ -17,12 +17,14 @@ public class EnemyContoller : ActiveBase
     float _minRange;
     int _enemyHP;
     float _ct;
+    float _moveCT;
     bool _deth = false;
     GameObject _playerObj;
     GameObject _bullet;
     GameObject _muzzle;
     Slider _hpSlider;
     float _time;
+    float _moveTime;
 
     private void Start()
     {
@@ -32,6 +34,7 @@ public class EnemyContoller : ActiveBase
         _moveSpeed = _setValues.GetMoveSpeed;
         _enemyHP = _setValues.GetEnemyHP;
         _ct = _setValues.GetCoolTime;
+        _moveCT = _setValues.GetMoveCT;
         _playerObj = _attach.GetPlayerObj;
         _bullet = _attach.GetBullets;
         _muzzle = _attach.GetEnemyMuzle;
@@ -66,6 +69,7 @@ public class EnemyContoller : ActiveBase
             RangeCalculation(gameObject.transform.position,
                              _playerObj.transform.position);
             EnemyAI(_range);
+            _moveTime += Time.deltaTime;
         }
     }
     //Enemyの行動パターン管理
@@ -78,29 +82,35 @@ public class EnemyContoller : ActiveBase
                 if (range <= _maxRange * _maxRange && _minRange * _minRange <= range)
                 {
                     _rb.velocity = gameObject.transform.position * _moveSpeed * 0;
-                    Debug.Log($"Attack");
                     
                     if (_time >= _ct)
                     {
                         Instantiate(_bullet, _muzzle.transform.position, transform.rotation);
                         _bullet.transform.forward = _playerObj.transform.position;
                         _time = 0;
-                        Debug.Log("EnemyShot");
                     }
                 }
                 //Playerが遠い場合、近づく
                 else if (range > _maxRange * _maxRange)
                 {
-                    Debug.Log($"近づく");
-                    Vector3 _target = new Vector3(_playerObj.transform.position.x - gameObject.transform.position.x, 0, 
-                                                    _playerObj.transform.position.z - gameObject.transform.position.z);
-                    _rb.velocity = _target.normalized * _moveSpeed;
+                    if (_moveTime >= _moveCT)
+                    {
+                        _moveTime = 0;
+                        Vector3 _target = new Vector3(_playerObj.transform.position.x - gameObject.transform.position.x, 0,
+                                                        _playerObj.transform.position.z - gameObject.transform.position.z);
+                        _rb.velocity = _target.normalized * _moveSpeed;
+                    }
                 }
                 //Playerが近い場合、離れる
                 else if (range < _minRange * _minRange)
                 {
-                    Debug.Log($"離れる");
-                    _rb.velocity = _playerObj.transform.position.normalized * -1 * _moveSpeed;
+                    if (_moveTime >= _moveCT)
+                    {
+                        _moveTime = 0;
+                        _rb.velocity =
+                            new Vector3(_playerObj.transform.position.x * -1, 0, _playerObj.transform.position.z * -1).normalized
+                            * _moveSpeed;
+                    }
                 }
                 break;
 
@@ -182,6 +192,9 @@ public class EnemyContoller : ActiveBase
         [Header("攻撃のCoolTime")]
         [SerializeField] float coolTime = 5;
         public float GetCoolTime => coolTime;
+        [Header("MoveCoolTime")]
+        [SerializeField] float moveCoolTime = 1;
+        public float GetMoveCT => moveCoolTime;
     }
     [System.Serializable]
     class AttachmentObj
