@@ -15,7 +15,7 @@ public class EnemyBullet : MonoBehaviour
     }
     private void Update()
     {
-        _rb.velocity = gameObject.transform.forward * _moveSpeed;
+        _rb.velocity = gameObject.transform.forward.normalized * _moveSpeed;
     }
     private void OnCollisionEnter(Collision collision)
     {

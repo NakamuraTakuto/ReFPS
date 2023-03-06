@@ -46,7 +46,7 @@ public class EnemyContoller : ActiveBase
     private void Update()
     {
         _time += Time.deltaTime;
-        _hpSlider.transform.LookAt(_playerObj.transform.position);
+        _hpSlider?.transform.LookAt(_playerObj.transform.position);
 
         if (_deth)
         {
@@ -115,7 +115,46 @@ public class EnemyContoller : ActiveBase
                 break;
 
             case EnemyType.Boss:
-                //defalt‚É‹ßÚUŒ‚‚ğ’Ç‰Á
+                //Player‚ªˆê’è‹——£‚É‚¢‚é‚Æ‚«‚ÉUŒ‚
+                if (range <= _maxRange * _maxRange && _minRange * _minRange <= range)
+                {
+                    _rb.velocity = gameObject.transform.position * _moveSpeed * 0;
+                    _muzzle.transform.LookAt(_playerObj.transform.position);
+
+                    if (_time >= _ct)
+                    {
+                        Instantiate(_bullet, _muzzle.transform.position, transform.rotation);
+                        _bullet.transform.forward = _playerObj.transform.position;
+                        _time = 0;
+                    }
+                }
+                //Player‚ª‰“‚¢ê‡A‹ß‚Ã‚­
+                else if (range > _maxRange * _maxRange)
+                {
+                    if (_moveTime >= _moveCT)
+                    {
+                        _moveTime = 0;
+                        Vector3 _target = new Vector3(_playerObj.transform.position.x - gameObject.transform.position.x, 0,
+                                                        _playerObj.transform.position.z - gameObject.transform.position.z);
+                        _rb.velocity = _target.normalized * _moveSpeed;
+                    }
+                }
+                //Player‚ª‹ß‚¢ê‡A‹ßÚUŒ‚
+                else if (range < _minRange * _minRange)
+                {
+                    _rb.velocity = gameObject.transform.position * _moveSpeed * 0;
+
+                    if (_time >= _ct)
+                    {
+                        Debug.Log("‹ßÚUŒ‚");
+                        var pos = new Vector3(_playerObj.transform.position.x,
+                                             _playerObj.transform.position.y + 5,
+                                             _playerObj.transform.position.z);
+                        Instantiate(_bullet, pos, transform.rotation);
+                        _bullet.transform.forward = _playerObj.transform.position;
+                        _time = 0;
+                    }
+                }
                 break;
         }
     }
