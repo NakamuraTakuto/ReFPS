@@ -22,6 +22,7 @@ public class EnemyContoller : ActiveBase
     GameObject _playerObj;
     GameObject _bullet;
     GameObject _muzzle;
+    GameObject _effect;
     Slider _hpSlider;
     float _time;
     float _moveTime;
@@ -39,6 +40,7 @@ public class EnemyContoller : ActiveBase
         _bullet = _attach.GetBullets;
         _muzzle = _attach.GetEnemyMuzle;
         _hpSlider = _attach.GetHpSlider;
+        _effect = _attach.GetEffect;
         _hpSlider.value = _enemyHP;
         _hpSlider.maxValue = _setValues.GetEnemyHP;
     }
@@ -53,6 +55,7 @@ public class EnemyContoller : ActiveBase
             switch (_type)
             {
                 case EnemyType.defalt:
+                    Instantiate(_effect, gameObject.transform.position, transform.rotation);
                     Destroy(this.gameObject);
                     break;
 
@@ -254,5 +257,8 @@ public class EnemyContoller : ActiveBase
         [Header("HpSlider")]
         [SerializeField] Slider hpSlider;
         public Slider GetHpSlider => hpSlider;
+        [Header("エフェクト")]
+        [SerializeField] GameObject effect;
+        public GameObject GetEffect => effect;
     }
 }

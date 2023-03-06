@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyBullet : MonoBehaviour
 {
+    [SerializeField] GameObject _effect;
     [SerializeField] int _moveSpeed = 3;
     [SerializeField] int _damage = 5;
     Rigidbody _rb;
@@ -23,6 +24,7 @@ public class EnemyBullet : MonoBehaviour
         {
             GameManager.Instance.GetSetValues.GetPlayerHP -= _damage;
         }
+        Instantiate(_effect, gameObject.transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

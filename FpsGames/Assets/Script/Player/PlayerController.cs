@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
         _hitLayer = _attach.GetHitLayer;
     }
 
-    // Update is called once per frame
     void Update()
     {
         //CharacterController‚Å“®‚©‚·
@@ -57,6 +56,8 @@ public class PlayerController : MonoBehaviour
                 _active.Active();
                 GameManager.Instance
                     .MagazineBullets--;
+                GameManager.Instance.
+                    GunSound[GameManager.Instance.MagazineBullets].SetActive(true);
                 GameManager.Instance.
                     BulletImageList[GameManager.Instance.MagazineBullets].SetActive(false);
             }

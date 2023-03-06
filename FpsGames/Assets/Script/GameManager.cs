@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
         set { _setValues = value; }
         get { return _setValues; }
     }
+    [SerializeField] List<GameObject> _gunSound;
+    public List<GameObject> GunSound => _gunSound;
     [SerializeField] AttachmentObj _attach;
     public static GameManager Instance = default;
     Slider _playerHpSlider;
@@ -67,14 +69,17 @@ public class GameManager : MonoBehaviour
             //timerがCtに達したときに実行
             if (_time >= _setValues.GetUseTimeForReload)
             {
+                GetComponent<AudioSource>().Play();
                 //timerをリセットして残弾を最大に戻す
                 _time = 0;
                 MagazineBullets = _setValues.GetCapacity;
-                
+
                 //残弾を表すUIを再表示する
                 for (int i = 0; i < _setValues.GetCapacity; i++)
                 {
+
                     BulletImageList[i].SetActive(true);
+                    GunSound[i].SetActive(false);
                 }
                 //Playerの射撃処理を可にする
                 ShotOk = true;

@@ -288,9 +288,10 @@ MonoBehaviour:
   _inPlayer: 0
   _attach:
     _playerObj: {fileID: 0}
-    _bullets: {fileID: 4649884435495854748, guid: 1680359f90e3a274daf12cde870ac453, type: 3}
+    _bullets: {fileID: 4404289829924392648, guid: 3addc6c6a29c29a4ca4fce747c063911, type: 3}
     _enemyMuzle: {fileID: 7659301199229204442}
     hpSlider: {fileID: 7659301198803086613}
+    effect: {fileID: 1364523121104315444, guid: 2959d2123e5c99c4cacfe3869d3bb6d5, type: 3}
   _setValues:
     enemyHp: 50
     moveSpeed: 5
