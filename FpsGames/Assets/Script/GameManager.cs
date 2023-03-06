@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public bool ShotOk = true;
     public int MagazineBullets = 6;
     float _time;
+    Color _defaultColor;
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
         _gimmickObjList = _attach.GetGimmickObjList;
         _lampObjList = _attach.GetLampObjList;
         BulletImageList = _attach.GetBulletImageList;
+        _defaultColor = _lampObjList[0].GetComponent<Renderer>().material.color;
 
         for (int i = 0; i < BulletImageList.Count; i++)
         {
@@ -112,7 +114,7 @@ public class GameManager : MonoBehaviour
                 for (int i = _gimmickConter; i >= 0; i--)
                 {
                     _lampObjList[i].GetComponent<Renderer>()
-                        .material.color = Color.blue;
+                        .material.color = _defaultColor;
                 }
                 _gimmickConter = 0;
             }
