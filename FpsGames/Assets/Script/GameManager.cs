@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("移動したいscene")]
+    [SerializeField] string _changeScene;
+    [Header("GameOver")]
+    [SerializeField] string _gameOverScene = "GameOver";
+    [Header("GameClear")]
+    [SerializeField] string _gameClear = "GameClear";
     [SerializeField] SetValues _setValues;
     public SetValues GetSetValues
     {
@@ -27,6 +33,7 @@ public class GameManager : MonoBehaviour
     public bool GimmickActive = true;
     public bool ShotOk = true;
     public int MagazineBullets = 6;
+    public bool GameClear = false;
     float _time;
     Color _defaultColor;
 
@@ -49,7 +56,11 @@ public class GameManager : MonoBehaviour
         _gimmickObjList = _attach.GetGimmickObjList;
         _lampObjList = _attach.GetLampObjList;
         BulletImageList = _attach.GetBulletImageList;
-        _defaultColor = _lampObjList[0].GetComponent<Renderer>().material.color;
+        
+        if (_lampObjList.Count > 0)
+        {
+            _defaultColor = _lampObjList[0].GetComponent<Renderer>().material.color;
+        }
 
         for (int i = 0; i < BulletImageList.Count; i++)
         {
@@ -59,6 +70,14 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (GameClear && GameObject.Find("Player") != null)
+        {
+            GetComponent<SceneChanger>().SceneChange(_gameClear);
+        }
+        if (_setValues.GetPlayerHP <= 0 && GameObject.Find("Player") != null)
+        {
+            GetComponent<SceneChanger>().SceneChange(_gameOverScene);
+        }
         _playerHpSlider.value = _setValues.GetPlayerHP;
 
         //残弾が無くなったときに実行
@@ -103,6 +122,7 @@ public class GameManager : MonoBehaviour
             //全て順番通りに撃った時に実行
             if (_gimmickConter >= _gimmickObjList.Count)
             {
+                GimmickActive = false;
                 GimmickClear();
             }
         }
@@ -125,6 +145,19 @@ public class GameManager : MonoBehaviour
     {
         GimmickActive = false;
         Debug.Log("ギミッククリア!!");
+
+        if (TryGetComponent<Animator>(out Animator _animation))
+        {
+            _animation.SetBool("Gimmick", true);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            GetComponent<SceneChanger>().SceneChange(_changeScene);
+        }
     }
 }
 

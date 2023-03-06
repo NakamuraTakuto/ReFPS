@@ -61,6 +61,8 @@ public class EnemyContoller : ActiveBase
 
                 case EnemyType.Boss:
                     //GameManager‚©‚çclear”»’è‚ÌBool‚ğæ“¾‚µ‚ÄØ‚è‘Ö‚¦‚é
+                    Instantiate(_effect, gameObject.transform.position, transform.rotation);
+                    GameManager.Instance.GameClear = true;
                     Destroy(this.gameObject);
                     break;
             }
